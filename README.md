@@ -29,11 +29,11 @@ Clone the template repository once:
 git clone https://github.com/quinnei/quarto-report-template.git ~/Documents/report-template
 ```
 
-Then run the following commands from the project directory:
+From the folder that will contain the report `.qmd` file, create a local `quarto/pdf` path and link the shared header file:
 
 ```bash
-mkdir -p 3_Output/quarto/pdf
-ln -s ~/Documents/report-template/quarto/pdf/header.tex 3_Output/quarto/pdf/header.tex
+mkdir -p quarto/pdf
+ln -s ~/Documents/report-template/quarto/pdf/header.tex quarto/pdf/header.tex
 ```
 
 Make sure the report YAML includes:
@@ -44,9 +44,8 @@ format:
     include-in-header: quarto/pdf/header.tex
 ```
 
-Render the report from `3_Output`:
+Then render the report from the folder that contains the `.qmd` file:
 
 ```bash
-cd 3_Output
 quarto render "Report Name.qmd" --to pdf
 ```
