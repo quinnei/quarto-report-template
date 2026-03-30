@@ -10,7 +10,7 @@ This template controls the overall layout and aesthetics of the PDF report:
 
 ## Preview
 
-![Template preview](images/template-preview.png)
+<img src="images/template-preview.png" alt="Template preview" width="420">
 
 ## Main File
 
