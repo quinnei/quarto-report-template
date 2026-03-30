@@ -8,6 +8,10 @@ This template controls the overall layout and aesthetics of the PDF report:
 - a summary section, presented as bullet points 
 - font, line spacing, and table/figure displays
 
+## Preview
+
+![Template preview](images/template-preview.png)
+
 ## Main File
 
 - `quarto/pdf/header.tex`: the styling template for generating PDF reports
