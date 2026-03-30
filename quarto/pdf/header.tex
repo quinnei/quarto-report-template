@@ -1,0 +1,192 @@
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage{fontspec}
+\usepackage{enumitem}
+\usepackage[hang,flushmargin]{footmisc}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{needspace}
+\usepackage{xparse}
+\usepackage{adjustbox}
+\usepackage[most]{tcolorbox}
+
+\setmainfont{IBM Plex Sans}[BoldFont={IBM Plex Sans Bold}]
+\newfontfamily\displayfont{IBM Plex Sans}[BoldFont={IBM Plex Sans Bold}]
+\setlength{\footnotemargin}{1.1em}
+\setlength{\footskip}{18pt}
+\raggedbottom
+\renewcommand{\footnotelayout}{%
+  \displayfont
+  \pretolerance=10000
+  \hyphenpenalty=10000
+  \exhyphenpenalty=10000
+  \emergencystretch=1.5em
+}
+
+\DeclareCaptionFont{nohyphen}{\hyphenpenalty=10000\exhyphenpenalty=10000}
+\captionsetup[table]{labelfont=normalfont,textfont=normalfont,font=nohyphen,labelsep=colon,skip=2pt}
+\captionsetup[figure]{font=nohyphen}
+\floatplacement{table}{H}
+
+\let\origcaption\caption
+\RenewDocumentCommand{\caption}{om}{%
+  \if\relax\detokenize{#2}\relax
+  \else
+    \IfNoValueTF{#1}{\origcaption{#2}}{\origcaption[#1]{#2}}%
+  \fi
+}
+
+\setstretch{1.06}
+\definecolor{bannercolor}{HTML}{2E354C}
+\definecolor{streakone}{HTML}{4867B0}
+\definecolor{bulletblue}{HTML}{38589D}
+\definecolor{streaktwo}{HTML}{2BA8D4}
+\definecolor{streakthree}{HTML}{2BB4B8}
+\definecolor{streakfour}{HTML}{43B98F}
+\definecolor{summaryblue}{HTML}{D9ECF7}
+
+% Remove the default date block.
+\date{}
+
+% Slightly larger body text while keeping the current layout intact.
+\makeatletter
+\renewcommand\normalsize{\@setfontsize\normalsize{11.6pt}{15.0pt}}
+\normalsize
+\makeatother
+
+% Compact transparent logo based on the streak motif in logo.png.
+\newcommand{\climatelogo}{
+  \begin{tikzpicture}[x=1pt,y=1pt,baseline=(base),scale=0.28,transform shape]
+    \coordinate (base) at (0,-3);
+    \fill[streakone]
+      (0,54) .. controls (18,42) and (31,43) .. (47,57)
+      .. controls (61,70) and (73,96) .. (89,112)
+      -- (103,112)
+      .. controls (86,93) and (74,68) .. (60,54)
+      .. controls (42,37) and (21,34) .. (0,37) -- cycle;
+    \fill[streaktwo]
+      (15,44) .. controls (34,33) and (50,35) .. (67,49)
+      .. controls (82,61) and (96,88) .. (116,110)
+      -- (130,110)
+      .. controls (110,84) and (96,58) .. (79,43)
+      .. controls (60,27) and (39,24) .. (15,28) -- cycle;
+    \fill[streakthree]
+      (29,32) .. controls (49,22) and (67,25) .. (86,40)
+      .. controls (102,54) and (118,84) .. (142,109)
+      -- (157,109)
+      .. controls (134,80) and (118,50) .. (99,33)
+      .. controls (79,15) and (56,12) .. (29,17) -- cycle;
+    \fill[streakfour]
+      (43,20) .. controls (64,12) and (85,16) .. (105,33)
+      .. controls (122,48) and (139,79) .. (168,107)
+      -- (184,107)
+      .. controls (158,75) and (140,44) .. (120,25)
+      .. controls (100,7) and (76,4) .. (43,10) -- cycle;
+  \end{tikzpicture}
+}
+
+\NewDocumentEnvironment{summarybox}{+b}{%
+  \par\vspace{1.3em}\noindent
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback=summaryblue,
+    colframe=black,
+    boxrule=0.4pt,
+    sharp corners,
+    left=0.05\linewidth,
+    right=0.05\linewidth,
+    top=0.65em,
+    bottom=1.0em,
+    boxsep=0pt,
+    before skip=0pt,
+    after skip=0.9em
+  ]
+    \setlength{\parskip}{0.2em}
+    \fontsize{11.2pt}{13.4pt}\selectfont
+    \displayfont
+    \pretolerance=10000
+    \hyphenpenalty=10000
+    \exhyphenpenalty=10000
+    \emergencystretch=1.5em
+    #1
+  \end{tcolorbox}
+}{}
+
+\newcommand{\summarytitle}{\vspace{0.42em}{\bfseries\fontsize{16}{18}\selectfont SUMMARY}\par}
+
+\newenvironment{summaryitems}
+  {\begin{itemize}[leftmargin=1.15em,labelsep=0.45em,itemsep=0.14em,topsep=0.12em,label=\textcolor{bulletblue}{\fontsize{12}{12}\selectfont$\bullet$}]}
+  {\end{itemize}}
+
+\newcommand{\summarylabel}[1]{\underline{\smash{#1}}}
+
+\newcommand{\summaryhollowbullet}{%
+  \textcolor{bulletblue}{\fontsize{13.5}{13.5}\selectfont$\circ$}%
+}
+
+\newenvironment{summarysubitems}
+  {\begin{itemize}[leftmargin=2.1em,labelsep=0.28em,itemsep=0.03em,topsep=0pt,partopsep=0pt,parsep=0pt,label=\summaryhollowbullet]}
+  {\end{itemize}}
+
+% First-page title banner and author block.
+\makeatletter
+\renewcommand{\maketitle}{
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[bannercolor] (current page.north west) rectangle ([yshift=-6.7cm]current page.north east);
+    \node[anchor=west] at ([xshift=0.30cm,yshift=-1.55cm]current page.north west) {\climatelogo};
+    \node[
+      name=titleblock,
+      anchor=west,
+      align=left,
+      text width=\dimexpr\paperwidth-3.9cm\relax
+    ] at ([xshift=2.55cm,yshift=-1.65cm]current page.north west) {%
+      {\color{white}\displayfont\bfseries\parbox[t]{\dimexpr\paperwidth-3.9cm\relax}{\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\fontsize{24}{26}\selectfont\MakeUppercase{\@title}}}
+    };
+    \node[
+      anchor=north west,
+      align=left,
+      text width=\dimexpr\paperwidth-3.9cm\relax
+    ] at ([yshift=-4mm]titleblock.south west) {%
+      {\color{white}\displayfont\bfseries\parbox[t]{\dimexpr\paperwidth-3.9cm\relax}{\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\fontsize{16}{19}\selectfont\MakeUppercase{\@subtitle}}}
+    };
+    \node[
+      anchor=west,
+      align=left,
+      text width=\dimexpr\paperwidth-5.0cm\relax
+    ] at ([xshift=2.55cm,yshift=-5.85cm]current page.north west) {%
+      {\color{white}\displayfont\fontsize{14}{17}\selectfont \@author}
+    };
+  \end{tikzpicture}
+  \mbox{}
+  \vspace*{4.6cm}
+}
+\makeatother
+
+% Keep the bullet marker flush with the heading edge, but start text farther in.
+\setlist[itemize]{leftmargin=1.9em,labelindent=0pt,labelwidth=1.1em,labelsep=0.8em,itemindent=0pt,listparindent=0pt,topsep=0.4em,itemsep=0.55em,align=left,label=\textcolor{bulletblue}{\fontsize{15}{15}\selectfont$\bullet$}}
+
+% Heading hierarchy: APPENDIX matches main headings; appendix-internal labels sit below.
+\setkomafont{section}{\normalfont\displayfont\fontsize{20}{18}\selectfont\bfseries}
+\RedeclareSectionCommand[beforeskip=0.28em plus 0.05em minus 0.03em,afterskip=0.04em]{section}
+\titleformat{\section}
+  {\normalfont\displayfont\fontsize{20}{18}\selectfont\bfseries}
+  {\thesection}
+  {0.75em}
+  {\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\MakeUppercase}
+\titlespacing*{\section}{0pt}{0.28em}{0.04em}
+
+\titleformat{\subsection}
+  {\normalfont\displayfont\fontsize{19}{17}\selectfont\bfseries}
+  {\thesubsection}
+  {0.75em}
+  {\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\MakeUppercase}
+
+\titleformat{\subsubsection}
+  {\normalfont\displayfont\fontsize{17}{15}\selectfont\bfseries}
+  {\thesubsubsection}
+  {0.75em}
+  {\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000\MakeUppercase}
