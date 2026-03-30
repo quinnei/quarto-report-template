@@ -29,7 +29,7 @@ Clone the template repository once:
 git clone https://github.com/quinnei/quarto-report-template.git ~/Documents/report-template
 ```
 
-From the folder that will contain the report `.qmd` file, create a local `quarto/pdf` path and link the shared header file:
+Inside the directory where the report `.qmd` file is stored, create a local `quarto/pdf` path and link the shared header file:
 
 ```bash
 mkdir -p quarto/pdf
@@ -39,9 +39,20 @@ ln -s ~/Documents/report-template/quarto/pdf/header.tex quarto/pdf/header.tex
 Make sure the report YAML includes:
 
 ```yaml
+title: "INSERT TITLE HERE"
+subtitle: "INSERT SUBTITLE HERE"
+author: "INSERT AUTHOR NAME HERE"
 format:
   pdf:
     include-in-header: quarto/pdf/header.tex
+    fontsize: 12pt
+    geometry:
+      - top=1in
+      - left=1in
+      - right=1in
+      - bottom=0.35in
+      - includefoot
+jupyter: python3  # optional
 ```
 
 Then render the report from the folder that contains the `.qmd` file:
